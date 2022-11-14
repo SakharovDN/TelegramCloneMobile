@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthView extends StatefulWidget {
   const AuthView({Key? key}) : super(key: key);
@@ -36,13 +37,13 @@ class AuthViewState extends State<AuthView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Электронная почта',
+                AppLocalizations.of(context)!.email,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.titleLarge,
               ),
               const SizedBox(height: 15),
               Text(
-                'Введите e-mail и пароль',
+                AppLocalizations.of(context)!.enterYourEmailAndPassword,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
               ),
@@ -52,6 +53,7 @@ class AuthViewState extends State<AuthView> {
                 child: TextField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   enableSuggestions: false,
                   focusNode: _emailFocusNode,
                   style: const TextStyle(decoration: TextDecoration.none),
@@ -73,7 +75,7 @@ class AuthViewState extends State<AuthView> {
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: theme.primaryColor)),
-                    labelText: 'Пароль',
+                    labelText: AppLocalizations.of(context)!.password,
                     labelStyle: _passwordFocusNode.hasFocus ? theme.textTheme.titleMedium?.copyWith(color: theme.primaryColor) : null,
                     suffixIcon: IconButton(
                         icon: Icon(

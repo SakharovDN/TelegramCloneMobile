@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:telegram_clone/resources/resources.dart';
 import 'package:telegram_clone/ui/routes/app_router.dart';
@@ -24,7 +25,7 @@ class WelcomeView extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              'Самый быстрый мессенджер в мире.\nБесплатный и безопасный.',
+              AppLocalizations.of(context)!.appDescription,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey),
             ),
@@ -38,15 +39,12 @@ class WelcomeView extends StatelessWidget {
                   duration: const Duration(seconds: 3),
                   interval: const Duration(seconds: 1),
                   colorOpacity: 0.2,
-                  child: Hero(
-                    tag: 'qwe',
-                    child: ElevatedButton(
-                      onPressed: () => Navigator.of(context).pushReplacementNamed(AppRouter.authView),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.primaryColor,
-                      ),
-                      child: const Text('Начать общение'),
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pushReplacementNamed(AppRouter.authView),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.primaryColor,
                     ),
+                    child: Text(AppLocalizations.of(context)!.startMessaging),
                   ),
                 ),
               ),
