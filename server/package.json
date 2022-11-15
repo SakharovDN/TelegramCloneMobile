@@ -10,14 +10,25 @@
         "start": "cross-env NODE_ENV=prod node main.js",
         "start:local": "cross-env NODE_ENV=local nodemon main.js"
     },
+    "imports": {
+        "#core/*": "./core/*",
+        "#auth/*": "./modules/auth/*"
+      },
     "dependencies": {
         "connect-timeout": "^1.9.0",
         "cors": "^2.8.5",
         "cross-env": "^7.0.3",
         "dotenv": "^16.0.1",
         "express": "^4.18.2",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.21",
+        "nodemailer": "^6.8.0",
+        "nodemailer-express-handlebars": "^5.0.0",
+        "passport": "^0.6.0",
+        "passport-jwt": "^4.0.0",
         "pg": "^8.8.0",
-        "sequelize": "^6.25.3"
+        "sequelize": "^6.25.3",
+        "yup": "^0.32.11"
     },
     "devDependencies": {
         "nodemon": "^2.0.20"
