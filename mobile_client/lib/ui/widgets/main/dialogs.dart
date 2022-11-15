@@ -44,13 +44,13 @@ abstract class Dialogs {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Открыть почту'),
-          content: const Text('Приложения не найдены'),
+          title: Text(AppLocalizations.of(context)!.emailConfirmation),
+          content: Text(AppLocalizations.of(context)!.emailAppsNotFound),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               child: TextButton(
-                child: const Text('Ок'),
+                child: Text(AppLocalizations.of(context)!.ok),
                 onPressed: () => Navigator.pop(context),
               ),
             )

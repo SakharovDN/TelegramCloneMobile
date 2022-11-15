@@ -16,5 +16,7 @@
     "surname": "Surname (optinal)",
     "emailConfirmation": "E-mail confirmation",
     "emailConfirmationDesc": "Please confirm your e-mail by clicking on the button below",
-    "confirmEmail": "Confirm E-mail"
+    "confirmEmail": "Confirm E-mail",
+    "emailAppsNotFound": "E-mail applications not found",
+    "ok" : "Ok"
 }

@@ -16,5 +16,7 @@
     "surname": "Фамилия (необязательно)",
     "emailConfirmation": "Подтверждение E-mail",
     "emailConfirmationDesc": "Пожалуйста, подтвердите ваш E-mail, нажав на кнопку ниже",
-    "confirmEmail": "Подтвердить E-mail"
+    "confirmEmail": "Подтвердить E-mail",
+    "emailAppsNotFound": "E-mail приложения не найдены",
+    "ok": "Ок"
 }

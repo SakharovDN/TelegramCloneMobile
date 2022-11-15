@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Telegram Clone',
-      theme: ThemeData(primaryColor: const Color(0xff6877ae)),
+      theme: ThemeData(primaryColor: const Color(0xff66a9e0)),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: const [
         Locale('en', ''),
