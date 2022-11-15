@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:telegram_clone/ui/widgets/main/app_text_field.dart';
+import 'package:telegram_clone/ui/widgets/main/dialogs.dart';
 import 'package:telegram_clone/ui/widgets/models/sign_up_model.dart';
 
 class SignUpView extends StatefulWidget {
@@ -17,7 +18,9 @@ class SignUpViewState extends State<SignUpView> {
 
   void _signUp(bool canStartSigningUp) {
     if (canStartSigningUp) {
-      context.read<SignUpModel>().signUp();
+      context.read<SignUpModel>().signUp().then((success) {
+        if (success == true) Dialogs.showConfirmEmailDialog(context);
+      });
     }
   }
 
@@ -66,7 +69,6 @@ class SignUpViewState extends State<SignUpView> {
               const SizedBox(height: 30),
               AppTextField(
                 controller: context.read<SignUpModel>().surnameController,
-                obscureText: true,
                 labelText: AppLocalizations.of(context)!.surname,
               ),
             ],

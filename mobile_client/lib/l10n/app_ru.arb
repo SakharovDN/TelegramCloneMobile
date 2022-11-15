@@ -13,5 +13,8 @@
     "infoAboutYourself": "Информация о себе",
     "enterYourName": "Введите своё имя",
     "name": "Имя (обязательно)",
-    "surname": "Фамилия (необязательно)"
+    "surname": "Фамилия (необязательно)",
+    "emailConfirmation": "Подтверждение E-mail",
+    "emailConfirmationDesc": "Пожалуйста, подтвердите ваш E-mail, нажав на кнопку ниже",
+    "confirmEmail": "Подтвердить E-mail"
 }

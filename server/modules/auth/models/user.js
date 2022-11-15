@@ -25,7 +25,7 @@ const defineModel = (sequelize) => {
         },
         surname: {
             type: DataTypes.STRING(100),
-            allowNull: false
+            allowNull: true
         },
         verified: {
             type: DataTypes.BOOLEAN,

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:telegram_clone/domain/exceptions/api_exception.dart';
 import 'package:telegram_clone/domain/services/auth_service.dart';
-import 'package:telegram_clone/ui/routes/app_router.dart';
 import 'package:telegram_clone/ui/widgets/main/shake_widget.dart';
 
 class SignUpModel extends ChangeNotifier {
@@ -27,9 +26,9 @@ class SignUpModel extends ChangeNotifier {
 
   factory SignUpModel.create(BuildContext context) => SignUpModel(context: context);
 
-  Future<void> signUp() async {
+  Future<bool?> signUp() async {
     if (!_fieldsAreFilled()) {
-      return;
+      return null;
     }
 
     _nameError = null;
@@ -57,9 +56,8 @@ class SignUpModel extends ChangeNotifier {
 
     _isSignUpInProgress = false;
     notifyListeners();
-    if (_nameError == null) {
-      _navigator.pushReplacementNamed(AppRouter.welcomeView);
-    }
+    bool success = _nameError == null;
+    return success;
   }
 
   bool _fieldsAreFilled() {

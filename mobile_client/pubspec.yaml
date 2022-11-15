@@ -21,6 +21,7 @@ dependencies:
   email_validator: ^2.1.17
   flutter_dotenv: ^5.0.2
   http: ^0.13.5
+  open_mail_app: ^0.1.0-nullsafety.3
 
 dev_dependencies:
   flutter_test:

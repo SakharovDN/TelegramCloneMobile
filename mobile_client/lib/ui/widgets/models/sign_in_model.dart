@@ -1,9 +1,10 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:telegram_clone/domain/exceptions/api_exception.dart';
 import 'package:telegram_clone/domain/services/auth_service.dart';
 import 'package:telegram_clone/ui/routes/app_router.dart';
+import 'package:telegram_clone/ui/widgets/main/dialogs.dart';
 import 'package:telegram_clone/ui/widgets/main/shake_widget.dart';
 
 class SignInModel extends ChangeNotifier {
@@ -47,7 +48,7 @@ class SignInModel extends ChangeNotifier {
           _emailError = AppLocalizations.of(context)!.lostConnection;
           break;
         case ApiExceptionType.notVerified:
-          // TODO: send email
+          Dialogs.showConfirmEmailDialog(context);
           break;
         case ApiExceptionType.notFound:
           Navigator.of(context).pushReplacementNamed(
