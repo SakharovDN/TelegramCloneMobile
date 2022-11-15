@@ -21,8 +21,9 @@ class AuthService {
     async signIn(email, password) {
         const user = await Model(UserModel).findOne({ where: { email }, raw: true, nest: true });
 
-        if (!user || !comparePassword(password, user.password)) return [null, null, true, false];
-        if (!user.verified) return [null, null, false, true];
+        if (!user) return [null, null, true, false, false];
+        if (!user.verified) return [null, null, false, true, false];
+        if (!comparePassword(password, user.password)) return [null, null, false, false, true];
 
         const token = TokenService.generateToken(_.pick(user, 'id'));
         return [token, _.omit(user, 'password', 'verified', 'createdAt', 'updatedAt'), false, false];
