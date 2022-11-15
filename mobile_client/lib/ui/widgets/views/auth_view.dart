@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:telegram_clone/ui/widgets/main/app_text_field.dart';
+import 'package:telegram_clone/ui/widgets/models/auth_model.dart';
 
 class AuthView extends StatefulWidget {
   const AuthView({Key? key}) : super(key: key);
@@ -9,14 +12,13 @@ class AuthView extends StatefulWidget {
 }
 
 class AuthViewState extends State<AuthView> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _passwordVisible = false;
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
-  void _changeTextVisibility() {
-    setState(() => _passwordVisible = !_passwordVisible);
+  void _signIn(bool canStartAuth) {
+    if (canStartAuth) {
+      context.read<AuthModel>().signIn();
+    }
   }
 
   @override
@@ -29,6 +31,13 @@ class AuthViewState extends State<AuthView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final emailError = context.watch<AuthModel>().emailError;
+    final emailKey = context.watch<AuthModel>().emailKey;
+    final passwordError = context.watch<AuthModel>().passwordError;
+    final passwordKey = context.watch<AuthModel>().passwordKey;
+    final isAuthInProgress = context.watch<AuthModel>().isAuthInProgress;
+    final canStartAuth = context.watch<AuthModel>().canStartAuth;
+
     return Scaffold(
       body: Center(
         child: Padding(
@@ -48,44 +57,21 @@ class AuthViewState extends State<AuthView> {
                 style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 25),
-              SizedBox(
-                height: 50,
-                child: TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  enableSuggestions: false,
-                  focusNode: _emailFocusNode,
-                  style: const TextStyle(decoration: TextDecoration.none),
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: theme.primaryColor)),
-                    labelText: 'E-mail',
-                    labelStyle: _emailFocusNode.hasFocus ? theme.textTheme.titleMedium?.copyWith(color: theme.primaryColor) : null,
-                  ),
-                ),
+              AppTextField(
+                globalKey: emailKey,
+                controller: context.read<AuthModel>().emailController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                labelText: 'E-mail',
+                errorText: emailError,
               ),
               const SizedBox(height: 30),
-              SizedBox(
-                height: 50,
-                child: TextField(
-                  controller: _passwordController,
-                  focusNode: _passwordFocusNode,
-                  obscureText: !_passwordVisible,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: theme.primaryColor)),
-                    labelText: AppLocalizations.of(context)!.password,
-                    labelStyle: _passwordFocusNode.hasFocus ? theme.textTheme.titleMedium?.copyWith(color: theme.primaryColor) : null,
-                    suffixIcon: IconButton(
-                        icon: Icon(
-                          _passwordVisible ? Icons.visibility_off : Icons.visibility,
-                          color: _passwordFocusNode.hasFocus ? theme.primaryColor : null,
-                        ),
-                        splashColor: Colors.transparent,
-                        onPressed: _changeTextVisibility),
-                  ),
-                ),
+              AppTextField(
+                globalKey: passwordKey,
+                controller: context.read<AuthModel>().passwordController,
+                obscureText: true,
+                labelText: AppLocalizations.of(context)!.password,
+                errorText: passwordError,
               ),
             ],
           ),
@@ -93,8 +79,8 @@ class AuthViewState extends State<AuthView> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: theme.primaryColor,
-        child: const Icon(Icons.arrow_forward),
-        onPressed: () {},
+        onPressed: () => _signIn(canStartAuth),
+        child: isAuthInProgress ? CircularProgressIndicator(color: theme.colorScheme.onPrimary) : const Icon(Icons.arrow_forward),
       ),
     );
   }
