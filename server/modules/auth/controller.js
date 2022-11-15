@@ -7,7 +7,6 @@ class AuthController {
     }
 
     signIn = () => async function (req, res) {
-        console.log('hfghg');
         const { email, password } = req.body;
         const [token, user, notFound, notVeriefied, wrongPassword] = await this.authService.signIn(email, password);
 
