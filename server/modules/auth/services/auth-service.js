@@ -22,7 +22,10 @@ class AuthService {
         const user = await Model(UserModel).findOne({ where: { email }, raw: true, nest: true });
 
         if (!user) return [null, null, true, false, false];
-        if (!user.verified) return [null, null, false, true, false];
+        if (!user.verified) {
+            this.#mailService.sendTo(user.email).activate(`${process.env.APP_DOMAIN}/auth/activate/${user.id}`);
+            return [null, null, false, true, false];
+        };
         if (!comparePassword(password, user.password)) return [null, null, false, false, true];
 
         const token = TokenService.generateToken(_.pick(user, 'id'));

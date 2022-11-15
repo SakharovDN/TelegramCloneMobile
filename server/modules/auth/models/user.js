@@ -1,5 +1,8 @@
 import { Model, DataTypes } from "sequelize";
+import { Model as ModelAdapter } from '#core/database.js';
 import crypto from 'crypto';
+import Chat from './chat.js'
+import Message from "./message.js"
 
 class User extends Model { }
 
@@ -35,6 +38,8 @@ const defineModel = (sequelize) => {
     }, { sequelize, tableName: "users" })
 
     return () => {
+        User.belongsToMany(ModelAdapter(Chat), { through: 'user_chats' });
+        User.hasMany(ModelAdapter(Message), { foreignKey: 'senderId' });
         User.addHook('beforeCreate', async (user) => {
             const salt = crypto.randomBytes(16).toString('hex');
             const hash = crypto.pbkdf2Sync(user.password, salt, 1000, 64, 'sha512').toString('hex');
