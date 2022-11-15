@@ -3,5 +3,15 @@
     "startMessaging": "Start Messaging",
     "email": "E-mail",
     "password": "Password",
-    "enterYourEmailAndPassword": "Enter your e-mail and password"
+    "enterYourEmailAndPassword": "Enter your e-mail and password",
+    "lostConnection": "Lost internet connection",
+    "wrongPassword": "Wrong password",
+    "oops": "Oops ... something went wrong. Try again.",
+    "requiredField": "Required field",
+    "enterTheCorrectEmail": "Enter the correct e-mail",
+    "passwordLength": "The password must be at least 8 characters long",
+    "infoAboutYourself": "Information about yourself",
+    "enterYourName": "Enter your name",
+    "name": "Name (required)",
+    "surname": "Surname (optinal)"
 }

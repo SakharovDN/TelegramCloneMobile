@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:telegram_clone/ui/widgets/main/app_text_field.dart';
-import 'package:telegram_clone/ui/widgets/models/auth_model.dart';
+import 'package:telegram_clone/ui/widgets/models/sign_in_model.dart';
 
-class AuthView extends StatefulWidget {
-  const AuthView({Key? key}) : super(key: key);
+class SignInView extends StatefulWidget {
+  const SignInView({Key? key}) : super(key: key);
 
   @override
-  AuthViewState createState() => AuthViewState();
+  SignInViewState createState() => SignInViewState();
 }
 
-class AuthViewState extends State<AuthView> {
+class SignInViewState extends State<SignInView> {
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
   void _signIn(bool canStartAuth) {
     if (canStartAuth) {
-      context.read<AuthModel>().signIn();
+      context.read<SignInModel>().signIn();
     }
   }
 
@@ -31,12 +31,12 @@ class AuthViewState extends State<AuthView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final emailError = context.watch<AuthModel>().emailError;
-    final emailKey = context.watch<AuthModel>().emailKey;
-    final passwordError = context.watch<AuthModel>().passwordError;
-    final passwordKey = context.watch<AuthModel>().passwordKey;
-    final isAuthInProgress = context.watch<AuthModel>().isAuthInProgress;
-    final canStartAuth = context.watch<AuthModel>().canStartAuth;
+    final emailError = context.watch<SignInModel>().emailError;
+    final emailKey = context.watch<SignInModel>().emailKey;
+    final passwordError = context.watch<SignInModel>().passwordError;
+    final passwordKey = context.watch<SignInModel>().passwordKey;
+    final isAuthInProgress = context.watch<SignInModel>().isAuthInProgress;
+    final canStartAuth = context.watch<SignInModel>().canStartAuth;
 
     return Scaffold(
       body: Center(
@@ -59,7 +59,7 @@ class AuthViewState extends State<AuthView> {
               const SizedBox(height: 25),
               AppTextField(
                 globalKey: emailKey,
-                controller: context.read<AuthModel>().emailController,
+                controller: context.read<SignInModel>().emailController,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 labelText: 'E-mail',
@@ -68,7 +68,7 @@ class AuthViewState extends State<AuthView> {
               const SizedBox(height: 30),
               AppTextField(
                 globalKey: passwordKey,
-                controller: context.read<AuthModel>().passwordController,
+                controller: context.read<SignInModel>().passwordController,
                 obscureText: true,
                 labelText: AppLocalizations.of(context)!.password,
                 errorText: passwordError,

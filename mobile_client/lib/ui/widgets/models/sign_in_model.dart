@@ -1,12 +1,13 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:telegram_clone/domain/exceptions/api_exception.dart';
 import 'package:telegram_clone/domain/services/auth_service.dart';
 import 'package:telegram_clone/ui/routes/app_router.dart';
 import 'package:telegram_clone/ui/widgets/main/shake_widget.dart';
 
-class AuthModel extends ChangeNotifier {
-  BuildContext context;
+class SignInModel extends ChangeNotifier {
+  final BuildContext context;
   final _authService = AuthService();
 
   final emailController = TextEditingController();
@@ -23,9 +24,9 @@ class AuthModel extends ChangeNotifier {
   bool get canStartAuth => !_isAuthInProgress;
   bool get isAuthInProgress => _isAuthInProgress;
 
-  AuthModel({required this.context}) : super();
+  SignInModel({required this.context}) : super();
 
-  factory AuthModel.create(BuildContext context) => AuthModel(context: context);
+  factory SignInModel.create(BuildContext context) => SignInModel(context: context);
 
   Future<void> signIn() async {
     if (!_fieldsAreFilled()) {
@@ -43,15 +44,14 @@ class AuthModel extends ChangeNotifier {
     } on ApiException catch (ex) {
       switch (ex.type) {
         case ApiExceptionType.network:
-          _emailError = 'Потеряно интернет-соединие';
+          _emailError = AppLocalizations.of(context)!.lostConnection;
           break;
         case ApiExceptionType.notVerified:
           // TODO: send email
           break;
         case ApiExceptionType.notFound:
-          // TODO: change route to sign up
           Navigator.of(context).pushReplacementNamed(
-            AppRouter.welcomeView,
+            AppRouter.signUpView,
             arguments: {
               'email': email,
               'password': password,
@@ -64,7 +64,7 @@ class AuthModel extends ChangeNotifier {
           break;
         case ApiExceptionType.validationError:
         case ApiExceptionType.other:
-          _emailError = 'Упс.. что-то пошло не так. Попробуйте ещё раз.';
+          _emailError = AppLocalizations.of(context)!.oops;
           break;
         default:
           break;
@@ -79,20 +79,20 @@ class AuthModel extends ChangeNotifier {
     final password = passwordController.text.trim();
 
     if (email.isEmpty) {
-      _emailError = 'Обязательное поле';
+      _emailError = AppLocalizations.of(context)!.requiredField;
       emailKey.currentState?.shake();
     } else if (!EmailValidator.validate(email)) {
-      _emailError = 'Введите корректный e-mail';
+      _emailError = AppLocalizations.of(context)!.enterTheCorrectEmail;
       emailKey.currentState?.shake();
     } else {
       _emailError = null;
     }
 
     if (password.isEmpty) {
-      _passwordError = 'Обязательное поле';
+      _passwordError = AppLocalizations.of(context)!.requiredField;
       passwordKey.currentState?.shake();
     } else if (password.length < 8) {
-      _passwordError = 'Длина пароля должна быть не менее 8 символов';
+      _passwordError = AppLocalizations.of(context)!.passwordLength;
       passwordKey.currentState?.shake();
     } else {
       _passwordError = null;

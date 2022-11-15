@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 class FadePageRoute extends PageRouteBuilder {
   final Widget child;
-  FadePageRoute({required this.child})
+  final RouteSettings? routeSettings;
+  FadePageRoute({required this.child, this.routeSettings})
       : super(
-        transitionDuration: const Duration(milliseconds: 500),
+          settings: routeSettings,
+          transitionDuration: const Duration(milliseconds: 500),
           pageBuilder: (context, animation, secondaryAnimation) => child,
         );
 

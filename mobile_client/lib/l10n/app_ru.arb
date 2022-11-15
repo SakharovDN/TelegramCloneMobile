@@ -3,5 +3,15 @@
     "startMessaging": "Начать общение",
     "email": "Электронная почта",
     "password": "Пароль",
-    "enterYourEmailAndPassword": "Введите e-mail и пароль"
+    "enterYourEmailAndPassword": "Введите e-mail и пароль",
+    "lostConnection": "Потеряно интернет соединение",
+    "wrongPassword": "Неправильный пароль",
+    "oops": "Упс ... что-то пошло не так. Попробуйте ещё раз.",
+    "requiredField": "Обязательное поле",
+    "enterTheCorrectEmail": "Введите корректный e-mail",
+    "passwordLength": "Длина пароля должна быть не менее 8 символов",
+    "infoAboutYourself": "Информация о себе",
+    "enterYourName": "Введите своё имя",
+    "name": "Имя (обязательно)",
+    "surname": "Фамилия (необязательно)"
 }

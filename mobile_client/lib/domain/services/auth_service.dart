@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 import 'package:telegram_clone/domain/dto/sign_in_request_dto.dart';
+import 'package:telegram_clone/domain/dto/sign_up_request_dto.dart';
 import 'package:telegram_clone/domain/exceptions/api_exception.dart';
 
 class AuthService {
@@ -34,6 +35,36 @@ class AuthService {
       throw ApiException(ApiExceptionType.network);
     } on ApiException {
       rethrow;
+    } catch (_) {
+      throw ApiException(ApiExceptionType.other);
+    }
+  }
+
+  Future<void> signUp(
+    String email,
+    String password,
+    String name,
+    String? surname,
+  ) async {
+    try {
+      final url = Uri.parse('${dotenv.get('API_HOST')}/auth/signUp');
+      final body = jsonEncode(
+        SignUpRequest(
+          email: email,
+          password: password,
+          name: name,
+          surname: surname,
+        ),
+      );
+      final response = await post(
+        url,
+        headers: {'content-type': 'application/json'},
+        body: body,
+      );
+
+      if (response.statusCode != 201) {
+        throw ApiException(ApiExceptionType.other);
+      }
     } catch (_) {
       throw ApiException(ApiExceptionType.other);
     }
