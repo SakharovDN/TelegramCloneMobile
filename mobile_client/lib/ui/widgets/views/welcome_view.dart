@@ -40,7 +40,7 @@ class WelcomeView extends StatelessWidget {
                   interval: const Duration(seconds: 1),
                   colorOpacity: 0.2,
                   child: ElevatedButton(
-                    onPressed: () => Navigator.of(context).pushReplacementNamed(AppRouter.authView),
+                    onPressed: () => Navigator.of(context).pushReplacementNamed(AppRouter.signInView),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.primaryColor,
                     ),
