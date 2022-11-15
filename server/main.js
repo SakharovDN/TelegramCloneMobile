@@ -3,6 +3,11 @@ import { Sequelize } from "sequelize";
 import Server from './core/server.js';
 import Routing from './core/routes.js';
 import DatabaseAdapter from './core/database.js';
+import MailModule from './core/mail.js';
+import ProfileModels from "#auth/models/_index.js";
+import PassportModule from './core/passport.js';
+import AuthRouter from "#auth/router.js";
+import { PassportJwt } from "#auth/services/jwt-service.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const APP_PORT = process.env.PORT || 5000;
@@ -10,6 +15,7 @@ const APP_PORT = process.env.PORT || 5000;
 new Server(
     APP_PORT,
     [
+        new MailModule({ user: process.env.MAIL_USER, pass: process.env.MAIL_PASS }),
         new DatabaseAdapter(new Sequelize(
             process.env.DB_NAME,
             process.env.DB_USER,
@@ -20,8 +26,11 @@ new Server(
                 port: process.env.DB_PORT || 5432,
                 logging: false
             }
-        )).registerModels([]),
-        new Routing([]),
+        )).registerModels([...ProfileModels()]),
+        new Routing([{ router: AuthRouter, prefix: "/auth" }]),
+        new PassportModule([
+            { name: "jwt", strategy: PassportJwt() }
+        ])
     ]
 )
     .initServices()
