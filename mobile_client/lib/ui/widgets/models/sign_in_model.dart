@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:telegram_clone/domain/data_providers/storage_data_provider.dart';
 import 'package:telegram_clone/domain/exceptions/api_exception.dart';
 import 'package:telegram_clone/domain/services/auth_service.dart';
 import 'package:telegram_clone/ui/routes/app_router.dart';
@@ -10,6 +11,7 @@ import 'package:telegram_clone/ui/widgets/main/shake_widget.dart';
 class SignInModel extends ChangeNotifier {
   final BuildContext context;
   final _authService = AuthService();
+  final _storageDataProvider = StorageDataProvider();
 
   final emailController = TextEditingController();
   final emailKey = GlobalKey<ShakeWidgetState>();
@@ -29,9 +31,9 @@ class SignInModel extends ChangeNotifier {
 
   factory SignInModel.create(BuildContext context) => SignInModel(context: context);
 
-  Future<void> signIn() async {
+  Future<bool?> signIn() async {
     if (!_fieldsAreFilled()) {
-      return;
+      return null;
     }
 
     _emailError = null;
@@ -40,8 +42,9 @@ class SignInModel extends ChangeNotifier {
     notifyListeners();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
+    String? token;
     try {
-      final token = await _authService.signIn(email, password);
+      token = await _authService.signIn(email, password);
     } on ApiException catch (ex) {
       switch (ex.type) {
         case ApiExceptionType.network:
@@ -51,14 +54,16 @@ class SignInModel extends ChangeNotifier {
           Dialogs.showConfirmEmailDialog(context);
           break;
         case ApiExceptionType.notFound:
-          Navigator.of(context).pushReplacementNamed(
-            AppRouter.signUpView,
+          Navigator.of(context).pushNamed(
+            RouteNames.signUpView,
             arguments: {
               'email': email,
               'password': password,
             },
           );
-          return;
+          _isAuthInProgress = false;
+          notifyListeners();
+          return null;
         case ApiExceptionType.wrongPassword:
           _passwordError = 'Неверный пароль';
           passwordKey.currentState?.shake();
@@ -73,6 +78,9 @@ class SignInModel extends ChangeNotifier {
     }
     _isAuthInProgress = false;
     notifyListeners();
+    _storageDataProvider.setToken(token);
+    bool success = _emailError == null && _passwordError == null;
+    return success;
   }
 
   bool _fieldsAreFilled() {

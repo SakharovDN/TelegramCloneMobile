@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:telegram_clone/ui/routes/app_router.dart';
 import 'package:telegram_clone/ui/widgets/main/app_text_field.dart';
 import 'package:telegram_clone/ui/widgets/models/sign_in_model.dart';
 
@@ -17,7 +18,11 @@ class SignInViewState extends State<SignInView> {
 
   void _signIn(bool canStartAuth) {
     if (canStartAuth) {
-      context.read<SignInModel>().signIn();
+      context.read<SignInModel>().signIn().then((success) {
+        if (success == true) {
+          Navigator.of(context).pushReplacementNamed(RouteNames.chatListView);
+        }
+      });
     }
   }
 
